@@ -2,13 +2,13 @@
 
 #include <cstdint>
 #include <vector>
-#include <string>
 #include <fstream>
 #include <iostream>
 
 class WavFile {
 public:
-    WavFile(std::string fileName);
+    WavFile(char fileName[]);
+    void writeWav(char fileName[]);
 private:
     // RIFF Header
     int32_t chunkId;    // "RIFF" in ASCII

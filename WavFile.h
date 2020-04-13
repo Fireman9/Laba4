@@ -9,6 +9,7 @@ class WavFile {
 public:
     WavFile(char fileName[]);
     void writeWav(char fileName[]);
+    void interpolation( double koef);
 private:
     // RIFF Header
     int32_t chunkId;    // "RIFF" in ASCII
@@ -29,4 +30,5 @@ private:
     int32_t subchunk2Id;    // "data" in ASCII
     int32_t subchunk2Size;  // numSamples * blockAlign(bitsPerSample/8 * numChannels) or all samples size
     std::vector<int8_t> data;    // samples
+
 };

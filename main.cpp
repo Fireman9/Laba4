@@ -7,5 +7,6 @@ int main(int argc, char* argv[]) {
     char testFileNameOutput[] = { "output.wav" };
     WavFile* wavFile = new WavFile(testFileNameInput);
     wavFile->writeWav(testFileNameOutput);
+    wavFile->interpolation(1.35);
     return 0;
 }

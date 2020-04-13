@@ -58,3 +58,15 @@ void WavFile::writeWav(char fileName[]) {
 	}
 	fclose(out);
 }
+
+void WavFile::interpolation( double koef) {
+    int a = data.size()*koef;// size of new array
+    int8_t* newData; newData = new int8_t[a];
+    int b;
+    for(int i = 0; i < data.size(); i++) {
+              b = i*koef;//new index of sample;
+              newData[b]= data[i];//new place for sample;
+    }
+    int x0, x1, y0, y1;//definition for interpolation formula
+    delete newData;
+}

@@ -24,12 +24,15 @@ WavFile::WavFile(char fileName[]) {
 	fread(&this->subchunk2Id, sizeof(this->subchunk2Id), 1, in);
 	fread(&this->subchunk2Size, sizeof(this->subchunk2Size), 1, in);
 	for (int i = 0; i < this->subchunk2Size; i++) {
-
 		int8_t temp;
 		fread(&temp, sizeof(temp), 1, in);
 		this->data.push_back(temp);
 	}
 	fclose(in);
+}
+
+WavFile::~WavFile() {
+	delete newData;
 }
 
 void WavFile::writeWav(char fileName[]) {
@@ -59,31 +62,30 @@ void WavFile::writeWav(char fileName[]) {
 	fclose(out);
 }
 
-void WavFile::interpolation( double koef) {
-    int a = data.size()*koef;// size of new array
-    int8_t* newData; newData = new int8_t[a];
-    int b;
-    for(int i = 0; i < data.size(); i++) {
-              b = i*koef;//new index of sample;
-              newData[b]= data[i];//new place for sample;
-              newIndex.push_back(b);
-    }
-    for(int i = 0; i< newIndex.size()-1; i ++) {
-        for(int j = newIndex[i]+1 ; j < newIndex[i+1]; j++) {
-            y = j;
-            x0 = i;
-            x1 = i+1;
-            y0 = newIndex[i];
-            y1 = newIndex[i+1];
-            if((y1-y0) != 0) {
-                x = x0+(((y-y0)*(x1-x0))/(y1-y0));//geometry interpretation interpolation
-                newData[y] =data[x];
-            } else {
-                cout<<" We have divide for 0"<<endl;
-            }
-
-        }
-    }
-    //newData it is result , size of array int a = data.size()*koef
-    delete newData;
+void WavFile::interpolation(double koef) {
+	this->newSize = this->data.size() * koef;
+	this->newData = new int8_t[this->newSize];
+	std::vector<int> newIndex;
+	int x0, x1, y0, y1, y, x, temp;
+	for (int i = 0; i < this->data.size(); i++) {
+		temp = i * koef;
+		this->newData[temp] = this->data[i];
+		newIndex.push_back(temp);
+	}
+	for (int i = 0; i < newIndex.size() - 1; i++) {
+		for (int j = newIndex[i] + 1; j < newIndex[i + 1]; j++) {
+			y = j;
+			x0 = i;
+			x1 = i + 1;
+			y0 = newIndex[i];
+			y1 = newIndex[i + 1];
+			if ((y1 - y0) != 0) {
+				x = x0 + (((y - y0) * (x1 - x0)) / (y1 - y0));
+				this->newData[y] = this->data[x];
+			}
+			else {
+				cout << " We have divide for 0" << endl;
+			}
+		}
+	}
 }

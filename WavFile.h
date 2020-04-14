@@ -10,7 +10,7 @@ public:
     WavFile(char fileName[]);
     ~WavFile();
     void writeWav(char fileName[]);
-    void interpolation( double koef);
+    void interpolation(double_t koef);
 private:
     // RIFF Header
     int32_t chunkId;    // "RIFF" in ASCII
@@ -30,10 +30,10 @@ private:
     // "data" subchunk
     int32_t subchunk2Id;    // "data" in ASCII
     int32_t subchunk2Size;  // numSamples * blockAlign(bitsPerSample/8 * numChannels) or all samples size
-    int8_t* data;   // samples
+    int16_t* data;   // samples
 
 
 
-    int8_t* newData;    // edited samples
-    int newSize;
+    int16_t* newData;    // edited samples
+    int32_t newSize;
 };

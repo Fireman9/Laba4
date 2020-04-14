@@ -9,7 +9,7 @@ int main(int argc, char* argv[]) {
     
 
 
-    wavFile->interpolation(1.35);
+    /*wavFile->interpolation(1.35);*/
 
 
     wavFile->writeWav(testFileNameOutput);

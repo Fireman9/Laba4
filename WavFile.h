@@ -30,7 +30,7 @@ private:
     // "data" subchunk
     int32_t subchunk2Id;    // "data" in ASCII
     int32_t subchunk2Size;  // numSamples * blockAlign(bitsPerSample/8 * numChannels) or all samples size
-    std::vector<int8_t> data;    // samples
+    int8_t* data;   // samples
 
 
 

@@ -23,16 +23,18 @@ WavFile::WavFile(char fileName[]) {
 	fread(&this->bitsPerSample, sizeof(this->bitsPerSample), 1, in);
 	fread(&this->subchunk2Id, sizeof(this->subchunk2Id), 1, in);
 	fread(&this->subchunk2Size, sizeof(this->subchunk2Size), 1, in);
+	this->data = new int8_t[this->subchunk2Size];
 	for (int i = 0; i < this->subchunk2Size; i++) {
 		int8_t temp;
 		fread(&temp, sizeof(temp), 1, in);
-		this->data.push_back(temp);
+		this->data[i] = temp;
 	}
 	fclose(in);
 }
 
 WavFile::~WavFile() {
 	delete newData;
+	delete data;
 }
 
 void WavFile::writeWav(char fileName[]) {
@@ -63,11 +65,11 @@ void WavFile::writeWav(char fileName[]) {
 }
 
 void WavFile::interpolation(double koef) {
-	this->newSize = this->data.size() * koef;
+	this->newSize = this->subchunk2Size * koef;
 	this->newData = new int8_t[this->newSize];
 	std::vector<int> newIndex;
 	int x0, x1, y0, y1, y, x, temp;
-	for (int i = 0; i < this->data.size(); i++) {
+	for (int i = 0; i < this->subchunk2Size; i++) {
 		temp = i * koef;
 		this->newData[temp] = this->data[i];
 		newIndex.push_back(temp);

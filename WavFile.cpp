@@ -47,6 +47,7 @@ WavFile::WavFile(char fileName[]) {
 WavFile::~WavFile() {
 	delete newData;
 	delete data;
+	cout << "Done";
 }
 
 void WavFile::writeWav(char fileName[]) {

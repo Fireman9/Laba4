@@ -6,7 +6,7 @@ int main(int argc, char* argv[]) {
     char testFileNameInput[] = { "input.wav" };
     char testFileNameOutput[] = { "output.wav" };
     WavFile wavFile(testFileNameInput);
-    wavFile.interpolation(1.4);
+    wavFile.interpolation(2);
     wavFile.writeWav(testFileNameOutput);
     return 0;
 }

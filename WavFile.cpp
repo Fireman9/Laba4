@@ -92,4 +92,6 @@ void WavFile::interpolation(double koef) {
 			}
 		}
 	}
+	this->chunkSize += this->newSize - this->subchunk2Size;
+	this->subchunk2Size = this->newSize;
 }

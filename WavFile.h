@@ -32,8 +32,6 @@ private:
     int32_t subchunk2Size;  // numSamples * blockAlign(bitsPerSample/8 * numChannels) or all samples size
     int16_t* data;   // samples
 
-
-
     int16_t* newData;    // edited samples
     int32_t newSize;
 };

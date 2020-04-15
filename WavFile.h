@@ -10,7 +10,7 @@ public:
     WavFile(char fileName[]);
     ~WavFile();
     void writeWav(char fileName[]);
-    void interpolation(double_t koef);
+    void interpolation(double koef);
 private:
     // RIFF Header
     int32_t chunkId;    // "RIFF" in ASCII

@@ -16,11 +16,23 @@ WavFile::WavFile(char fileName[]) {
 	fread(&this->subchunk1Id, sizeof(this->subchunk1Id), 1, in);
 	fread(&this->subchunk1Size, sizeof(this->subchunk1Size), 1, in);
 	fread(&this->audioFormat, sizeof(this->audioFormat), 1, in);
+	if (this->audioFormat != 1) {
+		cout << "File was compressed!" << endl;
+	}
 	fread(&this->numChannels, sizeof(this->numChannels), 1, in);
+	if (this->numChannels != 1) {
+		cout << "Works only with MONO!" << endl;
+	}
 	fread(&this->sampleRate, sizeof(this->sampleRate), 1, in);
 	fread(&this->byteRate, sizeof(this->byteRate), 1, in);
 	fread(&this->blockAlign, sizeof(this->blockAlign), 1, in);
+	if (this->blockAlign != 2) {
+		cout << "Works only with bitrate: 16" << endl;
+	}
 	fread(&this->bitsPerSample, sizeof(this->bitsPerSample), 1, in);
+	if (this->bitsPerSample != 16) {
+		cout << "Works only with bitrate: 16" << endl;
+	}
 	fread(&this->subchunk2Id, sizeof(this->subchunk2Id), 1, in);
 	fread(&this->subchunk2Size, sizeof(this->subchunk2Size), 1, in);
 	this->data = new int16_t[this->subchunk2Size / this->blockAlign];

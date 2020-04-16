@@ -80,29 +80,22 @@ void WavFile::writeWav(char fileName[]) {
 void WavFile::interpolation(double koef) {
 	this->newSize = this->subchunk2Size * koef;
 	this->newData = new int16_t[this->newSize];
-	std::vector<int32_t> newIndex;
-	int32_t x0, x1, y0, y1, y, x, temp;
-	for (int32_t i = 0; i < this->subchunk2Size; i++) {
+	int temp;
+	int32_t x0, x1, y0, y1, y, x;
+	for (int i = 0; i < this->subchunk2Size / this->blockAlign; i++) {
 		temp = i * koef;
 		this->newData[temp] = this->data[i];
-		newIndex.push_back(temp);
 	}
-	for (int32_t i = 0; i < newIndex.size() - 1; i++) {
-		for (int32_t j = newIndex[i] + 1; j < newIndex[i + 1]; j++) {
-			x = j;
-			x0 = i;
-			x1 = i + 1;
-			y0 = newData[i];
-			//cout<<newData[i]<<"  "<<y0<<endl;
-			y1 = newData[i + 1];
-			if ((x1 - x0) != 0) {
-				y = y0 + (((y1 - y0) * (x1 - x0)) / (x1 - x0));
-				this->newData[x] = y;
-				//cout<<newData[x]<<"  "<<y<<endl;
-			}
-			else {
-				cout << " We have divide for 0" << endl;
-			}
+	for (int i = 0; i < this->subchunk2Size / this->blockAlign - 1; i++) {
+		x0 = i * koef;
+		x1 = (i + 1) * koef;
+		y0 = this->newData[x0];
+		y1 = this->newData[x1];
+		temp = x1 - x0 - 1;
+		for (int j = 1; j < temp + 1; j++) {
+			y = ((y1 - y0) * j) / (x1 - x0) + y0;
+			x = j + x0;
+			this->newData[x] = y;
 		}
 	}
 	this->chunkSize += this->newSize - this->subchunk2Size;
